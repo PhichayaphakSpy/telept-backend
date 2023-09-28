@@ -1,20 +1,24 @@
-import prisma from "../../configs/db"
-import { IRegisterUserPayload } from "../../interfaces/user"
+import prisma from "../../configs/db";
+import { IRegisterUserPayload } from "../../interfaces/user";
+import bcrypt from "bcrypt";
 
 const register = async (payload: IRegisterUserPayload) => {
-    await prisma.user.create({
-        data: {
-            firstName: payload.firstName,
-            lastName: payload.lastName,
-            email: payload.email,
-            password: payload.password,
-            birthDate: payload.birthDate,
-            hospitalNo: payload.hospitalNo,
-            sex: payload.sex,
-            weight: payload.weight,
-            height: payload.height,
-        }
-    })
-}
+  const salt = await bcrypt.genSalt();
+  const hashedPassword = await bcrypt.hash(payload.password, salt);
 
-export default register
+  await prisma.user.create({
+    data: {
+      firstName: payload.firstName,
+      lastName: payload.lastName,
+      email: payload.email,
+      password: hashedPassword,
+      birthDate: payload.birthDate,
+      hospitalNo: payload.hospitalNo,
+      sex: payload.sex,
+      weight: payload.weight,
+      height: payload.height,
+    },
+  });
+};
+
+export default register;
