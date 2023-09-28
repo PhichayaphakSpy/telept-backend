@@ -12,4 +12,4 @@ const login = async (req: Request, res: Response) => {
   }
 };
 
-export default login
+export default login;

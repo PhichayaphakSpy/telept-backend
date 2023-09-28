@@ -36,4 +36,4 @@ const login = async (email: string, password: string) => {
   }
 };
 
-export default login
+export default login;
