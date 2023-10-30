@@ -50,9 +50,9 @@ model Session {
   taskId    Int
   poseId    Int
   score     Int?
+  create_at DateTime @default(now())
   pose      Pose     @relation(fields: [poseId], references: [id])
   task      Task     @relation(fields: [taskId], references: [id])
-  create_at DateTime @default(now())
 }
 
 enum Sex {
