@@ -3,7 +3,7 @@ import prisma from "../../configs/db";
 const getPoseById = (poseId: number) => {
   const result = prisma.pose.findFirst({
     where: {
-      poseId: poseId,
+      id: poseId,
     },
   });
 

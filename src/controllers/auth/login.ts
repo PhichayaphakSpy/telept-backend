@@ -3,12 +3,17 @@ import loginService from "../../services/auth/login";
 
 const login = async (req: Request, res: Response) => {
   try {
-    const { email, password } = req.body;
-    const token = await loginService(email, password);
+    const { nationalId, password } = req.body;
+    const token = await loginService(nationalId, password);
 
-    res.status(200).json(token);
+    if (token) {
+      res.status(200).json({ token });
+    } else {
+      res.status(401).json({ error: "Invalid credentials" });
+    }
   } catch (err) {
-    res.status(401).json({ err });
+    console.error(err);
+    res.status(500).json({ error: "Internal server error" });
   }
 };
 

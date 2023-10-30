@@ -1,29 +1,27 @@
 export interface IRegisterPayload {
-    firstName: string
-    lastName: string
-    email: string
-    password: string
-    birthDate: string
-    hospitalNo: string
-    sex: Sex
+  firstName: string;
+  lastName: string;
+  nationalId: string;
+  birthDate: string;
+  sex: Sex;
 }
 
 export interface IRegisterUserPayload extends IRegisterPayload {
-    weight: number
-    height: number
+  weight: number;
+  height: number;
 }
 
-export type IRegisterDoctorPayload = IRegisterPayload
+export type IRegisterDoctorPayload = IRegisterPayload;
 
-export type IRegisterTherapistPayload = IRegisterPayload
+export type IRegisterTherapistPayload = IRegisterPayload;
 
 export enum Sex {
-    FEMALE = "FEMALE",
-    MALE = "MALE"
-}
+  FEMALE = "FEMALE",
+  MALE = "MALE",
+} 
 
 export enum Role {
-    USER = "USER",
-    DOCTOR = "DOCTOR",
-    THERAPIST = "THERAPIST"
+  USER = "USER",
+  DOCTOR = "DOCTOR",
+  THERAPIST = "THERAPIST",
 }
