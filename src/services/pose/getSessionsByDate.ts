@@ -7,7 +7,7 @@ const getSessionsByDate = async (userid: number) => {
       patientId: userid,
       AND: [{ start_at: { lte: today } }, { end_at: { gte: today } }],
     },
-    select:{
+    select: {
       id: true,
       taskName: true,
       sessionsperday: true,
@@ -15,14 +15,11 @@ const getSessionsByDate = async (userid: number) => {
       end_at: true,
       patientId: true,
       doctorId: true,
-      Pose:true
-    }
+      Pose: true,
+    },
   });
 
-
-
-    return todayTask;
-
+  return todayTask;
 };
 
 export default getSessionsByDate;

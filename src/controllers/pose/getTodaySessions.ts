@@ -8,7 +8,7 @@ const getTodaySessions = async (req: Request, res: Response) => {
     const session = await getSessionsByDate(userId);
 
     if (session.length > 0) {
-      res.status(200).json({ session });
+      res.status(200).json(session.at(0));
     } else {
       res.status(401).json({ error: "Can not get tasks" });
     }
