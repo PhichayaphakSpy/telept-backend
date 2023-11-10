@@ -26,9 +26,18 @@ model Pose {
   name      String
   videoLink String
   steps     String[]
-  repeat    Int
   Session   Session[]
   Task      Task[]    @relation("taskPoses")
+  RepSec    RepSec[]
+}
+
+model RepSec {
+  id     Int    @id @default(sequence())
+  poseId Int
+  repeat Int
+  long   Int
+  Task   Task[] @relation("RepSec")
+  Pose   Pose   @relation(fields: [poseId], references: [id])
 }
 
 model Task {
@@ -43,6 +52,7 @@ model Task {
   doctor         User      @relation("doctorTasks", fields: [doctorId], references: [userId])
   patient        User      @relation("assignedTasks", fields: [patientId], references: [userId])
   Pose           Pose[]    @relation("taskPoses")
+  RepSec         RepSec[]  @relation("RepSec")
 }
 
 model Session {

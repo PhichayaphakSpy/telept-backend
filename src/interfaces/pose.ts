@@ -4,3 +4,17 @@ export interface IPose {
   steps: string[];
   repeat: number;
 }
+
+export interface IAssignTaskPayload {
+  taskName: string;
+  sessionsperday: number;
+  start_at: string;
+  end_at: string;
+  poses: {
+    poseId: number;
+    repeat: number;
+    long: number;
+  }[];
+  patientId: number;
+  doctorId: number;
+}
