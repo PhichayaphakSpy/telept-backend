@@ -2,7 +2,6 @@ export interface IPose {
   name: string;
   videoLink: string;
   steps: string[];
-  repeat: number;
 }
 
 export interface IAssignTaskPayload {
@@ -17,4 +16,9 @@ export interface IAssignTaskPayload {
   }[];
   patientId: number;
   doctorId: number;
+  criteria: {
+    overAll: number;
+    angle: number;
+    time: number;
+  };
 }

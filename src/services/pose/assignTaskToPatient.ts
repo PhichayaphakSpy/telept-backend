@@ -3,7 +3,7 @@ import { IAssignTaskPayload } from "../../interfaces/pose";
 
 const assignTask = async (payload: IAssignTaskPayload) => {
   try {
-    const { patientId, doctorId, poses, ...taskDetails } = payload;
+    const { patientId, doctorId, poses, criteria, ...taskDetails } = payload;
 
     const createdTask = await prisma.task.create({
       data: {
@@ -20,6 +20,13 @@ const assignTask = async (payload: IAssignTaskPayload) => {
             long: pose.long,
           })),
         },
+        Criteria: {
+          create: {
+            overAll: criteria.overAll,
+            angle: criteria.angle,
+            time: criteria.time,
+          },
+        },
       },
       include: {
         Pose: {
@@ -27,6 +34,7 @@ const assignTask = async (payload: IAssignTaskPayload) => {
             RepSec: true,
           },
         },
+        Criteria: true,
       },
     });
 
@@ -35,7 +43,7 @@ const assignTask = async (payload: IAssignTaskPayload) => {
     console.error("Error assigning task:", error);
     throw error;
   } finally {
-    await prisma.$disconnect(); // Close the Prisma client
+    await prisma.$disconnect();
   }
 };
 
