@@ -22,3 +22,9 @@ export interface IAssignTaskPayload {
     time: number;
   };
 }
+
+export interface IAutoResultPayload {
+  taskId: number;
+  poseId: number;
+  score?: number;
+}

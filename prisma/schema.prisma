@@ -73,6 +73,8 @@ model Session {
   create_at DateTime @default(now())
   pose      Pose     @relation(fields: [poseId], references: [id])
   task      Task     @relation(fields: [taskId], references: [id])
+
+  @@unique([taskId, poseId, create_at])
 }
 
 enum Sex {
