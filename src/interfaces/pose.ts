@@ -7,7 +7,7 @@ export interface IPose {
 
 export interface IAssignTaskPayload {
   taskName: string;
-  sessionsperday: number;
+  sessionsperday: string[];
   start_at: string;
   end_at: string;
   poses: {

@@ -16,6 +16,8 @@ const getSessionsByDate = async (userid: number) => {
       patientId: true,
       doctorId: true,
       Pose: true,
+      RepSec: true,
+      Criteria: true,
     },
   });
 

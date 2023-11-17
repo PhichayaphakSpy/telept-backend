@@ -40,19 +40,29 @@ model RepSec {
   Pose   Pose   @relation(fields: [poseId], references: [id])
 }
 
+model Criteria {
+  id      Int  @id @default(sequence())
+  taskId  Int  @unique
+  overAll Int
+  angle   Int
+  time    Int
+  Task    Task @relation(fields: [taskId], references: [id])
+}
+
 model Task {
-  id             Int       @id @default(sequence())
+  id             Int        @id @default(sequence())
   taskName       String
-  sessionsperday Int
+  sessionsperday String[]
   start_at       DateTime
   end_at         DateTime
   patientId      Int
   doctorId       Int
   Session        Session[]
-  doctor         User      @relation("doctorTasks", fields: [doctorId], references: [userId])
-  patient        User      @relation("assignedTasks", fields: [patientId], references: [userId])
-  Pose           Pose[]    @relation("taskPoses")
-  RepSec         RepSec[]  @relation("RepSec")
+  doctor         User       @relation("doctorTasks", fields: [doctorId], references: [userId])
+  patient        User       @relation("assignedTasks", fields: [patientId], references: [userId])
+  Pose           Pose[]     @relation("taskPoses")
+  RepSec         RepSec[]   @relation("RepSec")
+  Criteria       Criteria[]
 }
 
 model Session {
