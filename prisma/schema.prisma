@@ -22,13 +22,14 @@ model User {
 }
 
 model Pose {
-  id        Int       @id @default(sequence())
-  name      String
-  videoLink String
-  steps     String[]
-  Session   Session[]
-  Task      Task[]    @relation("taskPoses")
-  RepSec    RepSec[]
+  id           Int            @id @default(sequence())
+  name         String
+  videoLink    String
+  steps        String[]
+  Task         Task[]         @relation("taskPoses")
+  RepSec       RepSec[]
+  Session      Session[]
+  DoctorGraded DoctorGraded[]
 }
 
 model RepSec {
@@ -50,31 +51,49 @@ model Criteria {
 }
 
 model Task {
-  id             Int        @id @default(sequence())
+  id             Int      @id @default(sequence())
   taskName       String
   sessionsperday String[]
   start_at       DateTime
   end_at         DateTime
   patientId      Int
   doctorId       Int
-  Session        Session[]
-  doctor         User       @relation("doctorTasks", fields: [doctorId], references: [userId])
-  patient        User       @relation("assignedTasks", fields: [patientId], references: [userId])
-  Pose           Pose[]     @relation("taskPoses")
-  RepSec         RepSec[]   @relation("RepSec")
-  Criteria       Criteria[]
+
+  doctor       User           @relation("doctorTasks", fields: [doctorId], references: [userId])
+  patient      User           @relation("assignedTasks", fields: [patientId], references: [userId])
+  Pose         Pose[]         @relation("taskPoses")
+  RepSec       RepSec[]       @relation("RepSec")
+  Criteria     Criteria[]
+  Session      Session[]
+  DoctorGraded DoctorGraded[]
 }
 
 model Session {
-  id        Int      @id @default(sequence())
-  taskId    Int
-  poseId    Int
-  score     Int?
-  create_at DateTime @default(now())
-  pose      Pose     @relation(fields: [poseId], references: [id])
-  task      Task     @relation(fields: [taskId], references: [id])
+  id          Int      @id @default(sequence())
+  taskId      Int
+  session     String
+  poseId      Int
+  score       Int?
+  videoNormal String?
+  videoBone   String?
+  create_at   DateTime @default(now())
+  pose        Pose     @relation(fields: [poseId], references: [id])
+  task        Task     @relation(fields: [taskId], references: [id])
 
   @@unique([taskId, poseId, create_at])
+}
+
+model DoctorGraded {
+  id      Int      @id @default(sequence())
+  date    DateTime
+  taskId  Int
+  poseId  Int
+  overAll Int
+  angle   Int
+  time    Int
+  comment String
+  task    Task     @relation(fields: [taskId], references: [id])
+  pose    Pose     @relation(fields: [poseId], references: [id])
 }
 
 enum Sex {

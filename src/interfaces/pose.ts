@@ -25,6 +25,9 @@ export interface IAssignTaskPayload {
 
 export interface IAutoResultPayload {
   taskId: number;
+  session: string;
   poseId: number;
   score?: number;
+  videoNormal?: string;
+  videoBone?: string;
 }
