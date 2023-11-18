@@ -26,25 +26,43 @@ model Pose {
   name      String
   videoLink String
   steps     String[]
-  RepSec    RepSec[]
   Session   Session[]
   Task      Task[]    @relation("taskPoses")
+  RepSec    RepSec[]
+}
+
+model RepSec {
+  id     Int    @id @default(sequence())
+  poseId Int
+  repeat Int
+  long   Int
+  Task   Task[] @relation("RepSec")
+  Pose   Pose   @relation(fields: [poseId], references: [id])
+}
+
+model Criteria {
+  id      Int  @id @default(sequence())
+  taskId  Int  @unique
+  overAll Int
+  angle   Int
+  time    Int
+  Task    Task @relation(fields: [taskId], references: [id])
 }
 
 model Task {
-  id             Int       @id @default(sequence())
+  id             Int        @id @default(sequence())
   taskName       String
+  sessionsperday String[]
   start_at       DateTime
   end_at         DateTime
   patientId      Int
   doctorId       Int
-  sessionsperday String[]
-  Criteria       Criteria?
   Session        Session[]
-  doctor         User      @relation("doctorTasks", fields: [doctorId], references: [userId])
-  patient        User      @relation("assignedTasks", fields: [patientId], references: [userId])
-  RepSec         RepSec[]  @relation("RepSec")
-  Pose           Pose[]    @relation("taskPoses")
+  doctor         User       @relation("doctorTasks", fields: [doctorId], references: [userId])
+  patient        User       @relation("assignedTasks", fields: [patientId], references: [userId])
+  Pose           Pose[]     @relation("taskPoses")
+  RepSec         RepSec[]   @relation("RepSec")
+  Criteria       Criteria[]
 }
 
 model Session {
@@ -57,24 +75,6 @@ model Session {
   task      Task     @relation(fields: [taskId], references: [id])
 
   @@unique([taskId, poseId, create_at])
-}
-
-model Criteria {
-  id      Int  @id @default(sequence())
-  taskId  Int  @unique
-  overAll Int
-  angle   Int
-  time    Int
-  Task    Task @relation(fields: [taskId], references: [id])
-}
-
-model RepSec {
-  id     Int    @id @default(sequence())
-  poseId Int
-  repeat Int
-  long   Int
-  Pose   Pose   @relation(fields: [poseId], references: [id])
-  Task   Task[] @relation("RepSec")
 }
 
 enum Sex {

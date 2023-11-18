@@ -5,7 +5,6 @@ const getResultsById = (userId: number) => {
     where: {
       patientId: userId,
     },
-    take: 1,
     select: {
       id: true,
     },

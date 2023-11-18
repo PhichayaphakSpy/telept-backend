@@ -7,23 +7,21 @@ const getSessionsByDate = async (userid: number) => {
       patientId: userid,
       AND: [{ start_at: { lte: today } }, { end_at: { gte: today } }],
     },
+    select: {
+      id: true,
+      taskName: true,
+      sessionsperday: true,
+      start_at: true,
+      end_at: true,
+      patientId: true,
+      doctorId: true,
+      Pose: true,
+      RepSec: true,
+      Criteria: true,
+    },
   });
 
-  if (todayTask.length > 0) {
-    const result = await prisma.session.findMany({
-      where: {
-        taskId: todayTask[0].id,
-      },
-      select: {
-        id: true,
-        pose: true,
-      },
-    });
-
-    return result;
-  } else {
-    throw new Error("Task not found");
-  }
+  return todayTask;
 };
 
 export default getSessionsByDate;

@@ -9,4 +9,5 @@ userRouter.post("/register", registerUser);
 userRouter.get("/:id", getUser);
 userRouter.get("/:id/result", getAllResult);
 
+
 export default userRouter;
