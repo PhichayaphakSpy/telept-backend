@@ -11,6 +11,7 @@ const putResultSession = async (payload: IAutoResultPayload) => {
       where: {
         poseId: payload.poseId,
         taskId: payload.taskId,
+        session: payload.session,
         create_at: {
           gte: threeHoursAgo,
           lte: today,
@@ -25,14 +26,19 @@ const putResultSession = async (payload: IAutoResultPayload) => {
         },
         data: {
           score: payload.score,
+          videoNormal: payload.videoNormal,
+          videoBone: payload.videoBone,
         },
       });
     } else {
       await prisma.session.create({
         data: {
           taskId: payload.taskId,
+          session: payload.session,
           poseId: payload.poseId,
           score: payload.score,
+          videoNormal: payload.videoNormal,
+          videoBone: payload.videoBone,
           create_at: today,
         },
       });
