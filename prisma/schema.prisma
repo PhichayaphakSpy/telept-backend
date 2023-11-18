@@ -26,7 +26,7 @@ model Pose {
   name      String
   videoLink String
   steps     String[]
-  repeat    Int
+  RepSec    RepSec[]
   Session   Session[]
   Task      Task[]    @relation("taskPoses")
 }
@@ -34,14 +34,16 @@ model Pose {
 model Task {
   id             Int       @id @default(sequence())
   taskName       String
-  sessionsperday Int
   start_at       DateTime
   end_at         DateTime
   patientId      Int
   doctorId       Int
+  sessionsperday String[]
+  Criteria       Criteria?
   Session        Session[]
   doctor         User      @relation("doctorTasks", fields: [doctorId], references: [userId])
   patient        User      @relation("assignedTasks", fields: [patientId], references: [userId])
+  RepSec         RepSec[]  @relation("RepSec")
   Pose           Pose[]    @relation("taskPoses")
 }
 
@@ -53,6 +55,26 @@ model Session {
   create_at DateTime @default(now())
   pose      Pose     @relation(fields: [poseId], references: [id])
   task      Task     @relation(fields: [taskId], references: [id])
+
+  @@unique([taskId, poseId, create_at])
+}
+
+model Criteria {
+  id      Int  @id @default(sequence())
+  taskId  Int  @unique
+  overAll Int
+  angle   Int
+  time    Int
+  Task    Task @relation(fields: [taskId], references: [id])
+}
+
+model RepSec {
+  id     Int    @id @default(sequence())
+  poseId Int
+  repeat Int
+  long   Int
+  Pose   Pose   @relation(fields: [poseId], references: [id])
+  Task   Task[] @relation("RepSec")
 }
 
 enum Sex {

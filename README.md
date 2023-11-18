@@ -4,6 +4,7 @@
 2. ถ้าใช้กับ android emulator ในเครื่องต้องใช้path 10.0.2.2 แทน localhost
 
 command:
+    - cd telept-backend
     - nodemon ./src/index.ts 
         //เปิดใช้งาน restAPI Backend port:5000
     - npx prisma studio 
