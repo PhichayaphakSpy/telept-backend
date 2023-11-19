@@ -4,7 +4,7 @@ import prisma from "../../configs/db";
 
 const putResultSession = async (payload: IAutoResultPayload) => {
   const today = new Date();
-  const threeHoursAgo = new Date(today.getTime() - 3 * 60 * 60 * 1000);
+  const yesterday = new Date(today.getTime() - 1 * 24 * 60 * 60 * 1000);
 
   try {
     const existSession = await prisma.session.findMany({
@@ -13,7 +13,7 @@ const putResultSession = async (payload: IAutoResultPayload) => {
         taskId: payload.taskId,
         session: payload.session,
         create_at: {
-          gte: threeHoursAgo,
+          gte: yesterday,
           lte: today,
         },
       },
