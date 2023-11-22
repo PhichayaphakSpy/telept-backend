@@ -8,6 +8,7 @@ const getResultsById = (userId: number) => {
     select: {
       id: true,
       taskName: true,
+      sessionsperday: true,
     },
   });
 

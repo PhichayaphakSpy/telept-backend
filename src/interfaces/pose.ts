@@ -22,7 +22,7 @@ export interface IAssignTaskPayload {
     time: number;
   };
 }
-
+  
 export interface IAutoResultPayload {
   taskId: number;
   session: string;

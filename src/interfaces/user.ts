@@ -18,10 +18,15 @@ export type IRegisterTherapistPayload = IRegisterPayload;
 export enum Sex {
   FEMALE = "FEMALE",
   MALE = "MALE",
-} 
+}
 
 export enum Role {
   USER = "USER",
   DOCTOR = "DOCTOR",
   THERAPIST = "THERAPIST",
+}
+
+export interface IStat {
+  accuracy: number;
+  consistency: number;
 }
