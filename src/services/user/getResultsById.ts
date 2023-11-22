@@ -7,11 +7,21 @@ const getResultsById = (userId: number) => {
     },
     select: {
       id: true,
+      taskName: true,
     },
   });
 
-  return userTasks.then((tasks) => {
+  const a = userTasks.then(async (tasks) => {
     if (tasks.length > 0) {
+      const doctorGradedfromTask = await prisma.task.findMany({
+        where: {
+          patientId: userId,
+        },
+        select: {
+          DoctorGraded: true,
+        },
+      });
+
       return prisma.session
         .findMany({
           where: {
@@ -23,33 +33,73 @@ const getResultsById = (userId: number) => {
             create_at: "asc",
           },
         })
-        .then((results) => {
+        .then(async (results) => {
           const formattedResults: any[] = [];
-          let currentDate: any = null;
           let currentGroup: any = null;
 
-          results.forEach((result) => {
-            const resultDate = result.create_at.toISOString().split("T")[0];
+          const doctorGradedSet = new Set();
 
-            if (resultDate !== currentDate) {
+          for (const result of results) {
+            const resultDate = new Date(result.create_at);
+            const formattedDate = resultDate.toISOString().split("T")[0];
+
+            if (!currentGroup || formattedDate !== currentGroup.date) {
               currentGroup = {
-                date: resultDate,
+                date: formattedDate,
+                task: tasks.find((task) => task.id === result.taskId),
+                isdoctorgraded: false,
+                doctorGraded: [],
                 data: [],
               };
               formattedResults.push(currentGroup);
-              currentDate = resultDate;
+            }
+
+            const doctorGradedSession = (await doctorGradedfromTask)
+              .flatMap((task: any) => task.DoctorGraded)
+              .find(
+                (doctorGraded: any) =>
+                  doctorGraded.taskId === result.taskId &&
+                  doctorGraded.poseId === result.poseId &&
+                  new Date(doctorGraded.date).toISOString().split("T")[0] ===
+                    new Date(result.create_at).toISOString().split("T")[0]
+              );
+
+            let score;
+
+            if (doctorGradedSession) {
+              const overallWeight = 0.3;
+              const angleWeight = 0.3;
+              const timeWeight = 0.4;
+
+              score = (
+                overallWeight * doctorGradedSession.overAll +
+                angleWeight * doctorGradedSession.angle +
+                timeWeight * doctorGradedSession.time
+              ).toFixed(1);
+
+              currentGroup.isdoctorgraded = true;
+              doctorGradedSet.add(doctorGradedSession);
+            } else {
+              score = result.score;
             }
 
             currentGroup.data.push({
               id: result.id,
-              taskId: result.taskId,
               session: result.session,
               poseId: result.poseId,
-              score: result.score,
-              videoNormal: result.videoNormal,
-              videoBone: result.videoBone,
+              score: score,
+              comment: doctorGradedSession ? doctorGradedSession.comment : "",
             });
-          });
+
+            currentGroup.doctorGraded = Array.from(doctorGradedSet)
+              .filter((item: any) => {
+                return (
+                  new Date(item.date).toISOString().split("T")[0] ===
+                  formattedDate
+                );
+              })
+              .sort((a: any, b: any) => a.poseId - b.poseId);
+          }
 
           return formattedResults;
         });
@@ -57,6 +107,8 @@ const getResultsById = (userId: number) => {
 
     return null;
   });
+
+  return a;
 };
 
 export default getResultsById;

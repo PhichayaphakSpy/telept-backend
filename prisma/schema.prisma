@@ -73,7 +73,7 @@ model Session {
   taskId      Int
   session     String
   poseId      Int
-  score       Int?
+  score       Decimal?
   videoNormal String?
   videoBone   String?
   create_at   DateTime @default(now())
@@ -88,9 +88,9 @@ model DoctorGraded {
   date    DateTime
   taskId  Int
   poseId  Int
-  overAll Int
-  angle   Int
-  time    Int
+  overAll Decimal
+  angle   Decimal
+  time    Decimal
   comment String
   task    Task     @relation(fields: [taskId], references: [id])
   pose    Pose     @relation(fields: [poseId], references: [id])
