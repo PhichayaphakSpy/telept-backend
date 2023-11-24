@@ -71,6 +71,9 @@ model Session {
   id          Int      @id @default(sequence())
   taskId      Int
   poseId      Int
+  score       Decimal?
+  videoNormal String?
+  videoBone   String?
   create_at   DateTime @default(now())
   session     String
   videoBone   String?
@@ -87,6 +90,9 @@ model DoctorGraded {
   date    DateTime
   taskId  Int
   poseId  Int
+  overAll Decimal
+  angle   Decimal
+  time    Decimal
   comment String
   overAll Decimal
   angle   Decimal

@@ -3,8 +3,8 @@ import getSessionsByDate from "../../services/pose/getSessionsByDate";
 
 const getTodaySessions = async (req: Request, res: Response) => {
   try {
-    const { userId } = req.body;
-    console.log(userId);
+
+    const userId = parseInt(req.params["userId"]);
     const session = await getSessionsByDate(userId);
 
     if (session.length > 0) {

@@ -11,7 +11,7 @@ const practiceRouter = express();
 practiceRouter.get("/", getAllPose);
 practiceRouter.get("/:id", getPose);
 practiceRouter.get("/:taskId/criteria", getCriteria);
-practiceRouter.post("/today", getTodaySessions);
+practiceRouter.get("/:userId/today", getTodaySessions);
 practiceRouter.put("/today/saveresult", putResult);
 practiceRouter.post("/assign", assignTask);
 
