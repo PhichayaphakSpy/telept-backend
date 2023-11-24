@@ -3,7 +3,7 @@ import getUserHistory from "../../services/user/getUserHistory";
 
 const getHistory = async (req: Request, res: Response) => {
   try {
-    const userId =  parseInt(req.params["id"]);
+    const userId = parseInt(req.params["userId"]);
 
     const history = await getUserHistory(userId);
 
