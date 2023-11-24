@@ -9,3 +9,5 @@ command:
         //เปิดใช้งาน restAPI Backend port:5000
     - npx prisma studio 
         //ต่อ Database port:5555
+    - prisma db pull
+    - prisma generate
