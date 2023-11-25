@@ -17,10 +17,15 @@ const calculateStat = (results: any[]): IStat => {
     totalSessions += sessions.length;
   });
 
+  const startDate = new Date(results[0].task.start_at);
+  const endDate = new Date(results[0].task.end_at);
+  const timeDiff = Math.abs(endDate.getTime() - startDate.getTime());
+  const diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+  const totalDays = diffDays;
+
   const accuracy = (totalScore / (results.length * 10)) * 100;
   const consistency =
-    (totalSessions / (results.length * results[0].task.sessionsperday.length)) *
-    100;
+    (totalSessions / (totalDays * results[0].task.sessionsperday.length)) * 100;
 
   return { accuracy, consistency };
 };

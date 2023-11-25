@@ -9,6 +9,14 @@ const getResultsById = (userId: number) => {
       id: true,
       taskName: true,
       sessionsperday: true,
+      start_at: true,
+      end_at: true,
+      Pose: {
+        select: {
+          id: true,
+          name: true,
+        },
+      },
     },
   });
 
