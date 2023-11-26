@@ -33,9 +33,6 @@ const login = async (nationalId: string, password: string) => {
       };
 
       if (password.includes(formattedDate)) {
-        console.log(password);
-        console.log(formattedDate);
-
         const token = jwt.sign(jwtPayload, jwtSecret, { expiresIn: "24h" });
         return token;
       }

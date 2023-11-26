@@ -6,8 +6,8 @@ const calculateStat = (results: any[]): IStat => {
   let totalSessions = 0;
 
   results.forEach((result: any) => {
-    const scores = result.data.map((d: { score: string }) =>
-      parseFloat(d.score)
+    const scores = result.data.map(
+      (d: { score: string }) => parseFloat(d.score) || 0
     );
     const averageScore =
       scores.reduce((sum: any, score: any) => sum + score, 0) / scores.length;
