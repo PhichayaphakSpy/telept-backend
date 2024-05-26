@@ -77,8 +77,8 @@ const getResultsById = (userId: number) => {
 
             if (doctorGradedSession) {
               const overallWeight = 0.3;
-              const angleWeight = 0.3;
-              const timeWeight = 0.4;
+              const angleWeight = 0.4;
+              const timeWeight = 0.3;
 
               score = (
                 overallWeight * doctorGradedSession.overAll +
